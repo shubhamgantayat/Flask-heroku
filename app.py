@@ -1,14 +1,21 @@
 import os
 
-from flask import render_template, jsonify, Flask, request
+from flask import render_template, jsonify, Flask, request, send_from_directory
+from flask_restful import Api,Resource,reqparse
 from prime import prime
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='frontend/build')
+api = Api(app)
 
 
-@app.route('/', methods = ['GET', 'POST'])
-def home_page():
-    return render_template('form.html')
+class HelloWorld(Resource):
+    def get(self):
+        return {'hello': 'world'}
+
+
+@app.route('/', defaults={'path':''})
+def home_page(path):
+    return send_from_directory(app.static_folder,'index.html')
 
 
 @app.route('/prime', methods=['POST'])
@@ -30,6 +37,7 @@ def check_prime():
             return render_template('form.html',results = string)
 
 
+api.add_resource(HelloWorld,'/flask/hello')
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(debug=True)

@@ -1,5 +1,5 @@
-from flask import render_template, jsonify, Flask, request, send_from_directory
-from prime import prime
+from flask import render_template, jsonify, Flask, request
+from prime.prime import prime
 from flask_cors import cross_origin
 
 app = Flask(__name__)

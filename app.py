@@ -2,13 +2,13 @@ from flask import render_template, jsonify, Flask, request, send_from_directory
 from prime import prime
 from flask_cors import cross_origin
 
-app = Flask(__name__, static_url_path='', static_folder='frontend/build')
+app = Flask(__name__)
 
 
-@app.route('/', defaults={'path':''})
+@app.route('/')
 @cross_origin()
-def home_page(path):
-    return send_from_directory(app.static_folder,'index.html')
+def home_page():
+    return render_template("form.html")
 
 
 @app.route('/prime', methods=['POST'])
